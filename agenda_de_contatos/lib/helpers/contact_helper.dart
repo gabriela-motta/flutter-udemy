@@ -19,6 +19,7 @@ class ContactHelper {
       return _db;
     } else {
       _db = await initDb();
+      return _db;
     }
   }
 
@@ -31,6 +32,25 @@ class ContactHelper {
       await db.execute(
           "CREATE TABLE $contactTable($idColumn INTEGER PRIMARY KEY, $nameColumn TEXT, $emailColumn TEXT, $phoneColumn TEXT, $imgColumn TEXT)");
     });
+  }
+
+  Future<Contact> saveContact(Contact contact) async {
+    Database dbContact = await db;
+    contact.id = await dbContact.insert(contactTable, contact.toMap());
+    return contact;
+  }
+
+  Future<Contact> getContact(int id) async {
+    Database dbContact = await db;
+    List<Map> maps = await dbContact.query(contactTable,
+        columns: [idColumn, nameColumn, emailColumn, phoneColumn, imgColumn],
+        where: "$idColumn = ?",
+        whereArgs: [id]);
+    if (maps.length > 0) {
+      return Contact.fromMap(maps.first);
+    } else {
+      return null;
+    }
   }
 }
 
