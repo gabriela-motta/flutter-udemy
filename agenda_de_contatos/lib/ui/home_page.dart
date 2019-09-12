@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      contacts[index].name ?? "",
+                      contacts[index].email ?? "",
                       style: TextStyle(fontSize: 18),
                     ),
                     Text(
