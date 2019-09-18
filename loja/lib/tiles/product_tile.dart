@@ -25,7 +25,7 @@ class ProductTile extends StatelessWidget {
                   ),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(8, 24, 8, 0),
+                      padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
                       child: Column(
                         children: <Widget>[
                           Text(
@@ -46,7 +46,41 @@ class ProductTile extends StatelessWidget {
                   ),
                 ],
               )
-            : Row(),
+            : Row(
+                children: <Widget>[
+                  Flexible(
+                    flex: 1,
+                    child: Image.network(
+                      product.images[0],
+                      fit: BoxFit.cover,
+                      height: 250,
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            product.title,
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            "R\$ ${product.price.toStringAsFixed(2)}",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
