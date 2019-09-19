@@ -77,7 +77,34 @@ class _ProductScreenState extends State<ProductScreen> {
                 ),
                 children: getProductSizes(),
               ),
-            )
+            ),
+          ],
+        );
+      } else {
+        return SizedBox(
+          height: 0,
+        );
+      }
+    }
+
+    Widget productDescription() {
+      if (product.description != null) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Descrição",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              product.description,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
           ],
         );
       } else {
@@ -132,6 +159,28 @@ class _ProductScreenState extends State<ProductScreen> {
                   height: 16,
                 ),
                 productSize(),
+                SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                  height: 44,
+                  child: RaisedButton(
+                    color: primaryColor,
+                    textColor: Colors.white,
+                    child: Text(
+                      "Comprar",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    onPressed:
+                        (product.sizes == null || size != null) ? () {} : null,
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                productDescription(),
               ],
               crossAxisAlignment: CrossAxisAlignment.stretch,
             ),
