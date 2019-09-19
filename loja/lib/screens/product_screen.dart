@@ -13,12 +13,79 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   final ProductData product;
+  String size;
 
   _ProductScreenState(this.product);
 
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
+
+    List<GestureDetector> getProductSizes() {
+      return product.sizes.map((s) {
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              size = s;
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+              border: Border.all(
+                color: s == size ? primaryColor : Colors.grey[500],
+                width: 3,
+              ),
+              color: s == size ? primaryColor : Colors.transparent,
+            ),
+            width: 50,
+            alignment: Alignment.center,
+            child: Text(
+              s,
+              style: TextStyle(
+                color: s == size ? Colors.white : Colors.black,
+              ),
+            ),
+          ),
+        );
+      }).toList();
+    }
+
+    Widget productSize() {
+      if (product.sizes != null) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Tamanho",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(
+              height: 34,
+              child: GridView(
+                padding: EdgeInsets.symmetric(
+                  vertical: 4,
+                ),
+                scrollDirection: Axis.horizontal,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 0.5,
+                ),
+                children: getProductSizes(),
+              ),
+            )
+          ],
+        );
+      } else {
+        return SizedBox(
+          height: 0,
+        );
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -61,6 +128,10 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   maxLines: 3,
                 ),
+                SizedBox(
+                  height: 16,
+                ),
+                productSize(),
               ],
               crossAxisAlignment: CrossAxisAlignment.stretch,
             ),
