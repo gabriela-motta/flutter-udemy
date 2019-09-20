@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text("Categorias"),
             centerTitle: true,
-            backgroundColor: Color.fromARGB(255, 127, 0, 0),
+            backgroundColor: Theme.of(context).primaryColor,
           ),
           drawer: CustomDrawer(_pageController),
           body: CategoryTab(),
