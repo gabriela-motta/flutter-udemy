@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:loja/screens/signup_screen.dart';
 
 import 'home_screen.dart';
 
@@ -89,13 +90,21 @@ class LoginScreen extends StatelessWidget {
         actions: <Widget>[
           FlatButton(
             child: Text(
-              "Criar conta",
+              "CRIAR CONTA",
               style: TextStyle(
                 fontSize: 15,
               ),
             ),
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return SignupScreen();
+                  },
+                ),
+              );
+            },
           ),
         ],
       ),
