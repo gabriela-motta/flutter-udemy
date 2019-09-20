@@ -1,12 +1,51 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'home_screen.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn googleSignIn = GoogleSignIn();
+
+Future<String> signInWithGoogle() async {
+  final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+  final GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount.authentication;
+
+  final AuthCredential credential = GoogleAuthProvider.getCredential(
+    accessToken: googleSignInAuthentication.accessToken,
+    idToken: googleSignInAuthentication.idToken,
+  );
+
+  final FirebaseUser user = await _auth.signInWithCredential(credential);
+
+  assert(!user.isAnonymous);
+  assert(await user.getIdToken() != null);
+
+  final FirebaseUser currentUser = await _auth.currentUser();
+  assert(user.uid == currentUser.uid);
+
+  return 'signInWithGoogle succeeded: $user';
+}
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
-  Widget signInWithGoogleButton(Color primaryColor) {
+  Widget signInWithGoogleButton(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
     return OutlineButton(
       splashColor: Colors.grey,
-      onPressed: () {},
+      onPressed: () {
+        signInWithGoogle().whenComplete(() {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return HomeScreen();
+              },
+            ),
+          );
+        });
+      },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(40),
       ),
@@ -117,14 +156,14 @@ class LoginScreen extends StatelessWidget {
                 color: primaryColor,
                 textColor: Colors.white,
                 onPressed: () {
-                  if(_formKey.currentState.validate());
+                  if (_formKey.currentState.validate()) ;
                 },
               ),
             ),
             SizedBox(
               height: 16,
             ),
-            signInWithGoogleButton(primaryColor),
+            signInWithGoogleButton(context),
           ],
         ),
       ),
