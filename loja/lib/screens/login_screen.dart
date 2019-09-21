@@ -6,39 +6,36 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'home_screen.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn googleSignIn = GoogleSignIn();
+// Future<String> signInWithGoogle() async {
+//   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+//   final GoogleSignInAuthentication googleSignInAuthentication =
+//       await googleSignInAccount.authentication;
 
-Future<String> signInWithGoogle() async {
-  final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-  final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
+//   final AuthCredential credential = GoogleAuthProvider.getCredential(
+//     accessToken: googleSignInAuthentication.accessToken,
+//     idToken: googleSignInAuthentication.idToken,
+//   );
 
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
-    accessToken: googleSignInAuthentication.accessToken,
-    idToken: googleSignInAuthentication.idToken,
-  );
+//   final FirebaseUser user = await _auth.signInWithCredential(credential);
 
-  final FirebaseUser user = await _auth.signInWithCredential(credential);
+//   assert(!user.isAnonymous);
+//   assert(await user.getIdToken() != null);
 
-  assert(!user.isAnonymous);
-  assert(await user.getIdToken() != null);
+//   final FirebaseUser currentUser = await _auth.currentUser();
+//   assert(user.uid == currentUser.uid);
 
-  final FirebaseUser currentUser = await _auth.currentUser();
-  assert(user.uid == currentUser.uid);
-
-  return 'signInWithGoogle succeeded: $user';
-}
+//   return 'signInWithGoogle succeeded: $user';
+// }
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
-  Widget signInWithGoogleButton(BuildContext context) {
+  Widget signInWithGoogleButton(BuildContext context, UserModel model) {
     final primaryColor = Theme.of(context).primaryColor;
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        signInWithGoogle().whenComplete(() {
+        model.signInWithGoogle().whenComplete(() {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
@@ -159,7 +156,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 16,
                 ),
-                signInWithGoogleButton(context),
+                signInWithGoogleButton(context, model),
               ],
             ),
           );

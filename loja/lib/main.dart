@@ -11,26 +11,6 @@ void main() => runApp(MyApp());
 final googleSignIn = GoogleSignIn();
 final auth = FirebaseAuth.instance;
 
-Future<Null> _ensureLoggedIn() async {
-  GoogleSignInAccount user = googleSignIn.currentUser;
-  if (user == null) {
-    user = await googleSignIn.signInSilently();
-  }
-  if (user == null) {
-    user = await googleSignIn.signIn();
-  }
-  if (await auth.currentUser() == null) {
-    GoogleSignInAuthentication credentials =
-        await googleSignIn.currentUser.authentication;
-    await auth.signInWithCredential(
-      GoogleAuthProvider.getCredential(
-        idToken: credentials.idToken,
-        accessToken: credentials.accessToken,
-      ),
-    );
-  }
-}
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
