@@ -1,49 +1,24 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:loja/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'home_screen.dart';
 
-// Future<String> signInWithGoogle() async {
-//   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-//   final GoogleSignInAuthentication googleSignInAuthentication =
-//       await googleSignInAccount.authentication;
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
 
-//   final AuthCredential credential = GoogleAuthProvider.getCredential(
-//     accessToken: googleSignInAuthentication.accessToken,
-//     idToken: googleSignInAuthentication.idToken,
-//   );
-
-//   final FirebaseUser user = await _auth.signInWithCredential(credential);
-
-//   assert(!user.isAnonymous);
-//   assert(await user.getIdToken() != null);
-
-//   final FirebaseUser currentUser = await _auth.currentUser();
-//   assert(user.uid == currentUser.uid);
-
-//   return 'signInWithGoogle succeeded: $user';
-// }
-
-class LoginScreen extends StatelessWidget {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Widget signInWithGoogleButton(BuildContext context, UserModel model) {
     final primaryColor = Theme.of(context).primaryColor;
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        model.signInWithGoogle().whenComplete(() {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return HomeScreen();
-              },
-            ),
-          );
-        });
+        model.signInWithGoogle(onSuccess: _onSuccess, onFail: _onFail);
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(40),
@@ -81,7 +56,9 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Entrar"),
         centerTitle: true,
@@ -163,5 +140,17 @@ class LoginScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void _onSuccess() {
+    Navigator.of(context).pop();
+  }
+
+  void _onFail() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text("Falha ao entrar"),
+      backgroundColor: Colors.redAccent,
+      duration: Duration(seconds: 2),
+    ));
   }
 }

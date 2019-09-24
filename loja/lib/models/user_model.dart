@@ -37,33 +37,69 @@ class UserModel extends Model {
     });
   }
 
-  Future<Null> signInWithGoogle() async {
+  void signInWithGoogle(
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     isLoading = true;
-    notifyListeners(); 
-    GoogleSignInAccount user = googleSignIn.currentUser;
-    if (user == null) {
-      user = await googleSignIn.signInSilently();
-    }
-    if (user == null) {
-      user = await googleSignIn.signIn();
-    }
-    if (await _auth.currentUser() == null) {
-      GoogleSignInAuthentication credentials =
-          await googleSignIn.currentUser.authentication;
-      await _auth
-          .signInWithCredential(
-        GoogleAuthProvider.getCredential(
-          idToken: credentials.idToken,
-          accessToken: credentials.accessToken,
-        ),
-      )
-          .then((user) {
-        firebaseUser = user;
-        isLoading = false;
-        notifyListeners();
-      });
-    }
+    notifyListeners();
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    _auth.signInWithCredential(credential).then((user) {
+      firebaseUser = user;
+      var loggedUserData = {
+        "name": firebaseUser.displayName,
+        "email": firebaseUser.email,
+        "id": firebaseUser.uid
+      };
+      _saveUserData(loggedUserData);
+      onSuccess();
+      isLoading = false;
+      notifyListeners();
+    }).catchError((e) {
+      onFail();
+      isLoading = false;
+      notifyListeners();
+    });
   }
+
+  // Future<Null> signInWithGoogle(
+  //     {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+  //   isLoading = true;
+  //   notifyListeners();
+  //   GoogleSignInAccount user = googleSignIn.currentUser;
+  //   if (user == null) {
+  //     user = await googleSignIn.signInSilently();
+  //   }
+  //   if (user == null) {
+  //     user = await googleSignIn.signIn();
+  //   }
+  //   if (await _auth.currentUser() == null) {
+  //     GoogleSignInAuthentication credentials =
+  //         await googleSignIn.currentUser.authentication;
+  //     _auth
+  //         .signInWithCredential(
+  //       GoogleAuthProvider.getCredential(
+  //         idToken: credentials.idToken,
+  //         accessToken: credentials.accessToken,
+  //       ),
+  //     )
+  //         .then((user) {
+  //       print("bbbbbbbbbbbb");
+  //       firebaseUser = user;
+  //       print(user);
+  //       isLoading = false;
+  //       notifyListeners();
+  //     }).catchError((e) {
+  //       print("aaaaaaaaaaaaaaaaa");
+  //     });
+  //   }
+  // }
 
   void signIn() async {
     isLoading = true;
@@ -89,5 +125,9 @@ class UserModel extends Model {
         .collection("users")
         .document(firebaseUser.uid)
         .setData(userData);
+  }
+
+  getUserName() {
+    return firebaseUser.displayName;
   }
 }
