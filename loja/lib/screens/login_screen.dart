@@ -13,6 +13,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
+
   Widget signInWithGoogleButton(BuildContext context, UserModel model) {
     final primaryColor = Theme.of(context).primaryColor;
     return OutlineButton(
@@ -78,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "E-mail",
                   ),
                   keyboardType: TextInputType.emailAddress,
+                  controller: _emailController,
                   validator: (text) {
                     if (text.isEmpty || !text.contains("@")) {
                       return "E-mail inválido!";
@@ -92,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Senha",
                   ),
                   obscureText: true,
+                  controller: _passController,
                   validator: (text) {
                     if (text.isEmpty || text.length < 6) {
                       return "Senha inválida!";
@@ -101,7 +106,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_emailController.text.isEmpty) {
+                        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          content: Text("Insira seu e-mail para recuperação!"),
+                          backgroundColor: Colors.redAccent,
+                          duration: Duration(seconds: 2),
+                        ));
+                      } else {
+                        model.recoverPass(_emailController.text);
+                        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          content: Text("Confira sua caixa de entrada!"),
+                          backgroundColor: Theme.of(context).primaryColor,
+                          duration: Duration(seconds: 2),
+                        ));
+                      }
+                    },
                     child: Text(
                       "Esqueci minha senha",
                       textAlign: TextAlign.right,
@@ -126,7 +146,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: Colors.white,
                     onPressed: () {
                       if (_formKey.currentState.validate()) {}
-                      model.signIn();
+                      model.signIn(
+                        email: _emailController.text,
+                        pass: _passController.text,
+                        onSuccess: _onSuccess,
+                        onFail: _onFail,
+                      );
                     },
                   ),
                 ),
