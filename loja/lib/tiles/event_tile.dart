@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:loja/data/event_data.dart';
 
 class EventTile extends StatelessWidget {
@@ -25,7 +26,7 @@ class EventTile extends StatelessWidget {
                 width: 50,
               ),
               Text(
-                "${event.date.hour.toString()}:${event.date.minute.toString()}",
+                DateFormat.Hm().format(event.date).toString(),
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
               ),
             ],
