@@ -14,9 +14,10 @@ class EventTile extends StatelessWidget {
       child: Card(
         elevation: 1,
         child: Container(
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
           height: 50,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
                 event.title,
