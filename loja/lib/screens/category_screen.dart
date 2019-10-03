@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loja/data/product_data.dart';
 import 'package:loja/tiles/product_tile.dart';
+import 'package:loja/widgets/custom_appbar.dart';
 
 class CategoryScreen extends StatelessWidget {
   final DocumentSnapshot snapshot;
@@ -14,20 +15,11 @@ class CategoryScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(snapshot.data["title"]),
-          centerTitle: true,
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            tabs: <Widget>[
-              Tab(
-                icon: Icon(Icons.grid_on),
-              ),
-              Tab(
-                icon: Icon(Icons.list),
-              )
-            ],
-          ),
-        ),
+            title: Text(snapshot.data["title"]),
+            centerTitle: true,
+            bottom: CustomAppBar(
+              height: 20,
+            )),
         body: FutureBuilder<QuerySnapshot>(
           future: Firestore.instance
               .collection("products")
