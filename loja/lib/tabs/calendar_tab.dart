@@ -36,14 +36,14 @@ class _CalendarTabState extends State<CalendarTab>
 
   Future<QuerySnapshot> _loadEvents() {
     return Firestore.instance
-          .collection("events")
-          .where("date",
-              isGreaterThan: new DateTime(_selectedDay.year, _selectedDay.month,
-                  _selectedDay.day - 1, 23, 59, 59))
-          .where("date",
-              isLessThan: new DateTime(
-                  _selectedDay.year, _selectedDay.month, _selectedDay.day + 1))
-          .getDocuments();
+        .collection("events")
+        .where("date",
+            isGreaterThan: new DateTime(_selectedDay.year, _selectedDay.month,
+                _selectedDay.day - 1, 23, 59, 59))
+        .where("date",
+            isLessThan: new DateTime(
+                _selectedDay.year, _selectedDay.month, _selectedDay.day + 1))
+        .getDocuments();
   }
 
   @override
@@ -63,6 +63,7 @@ class _CalendarTabState extends State<CalendarTab>
               weekdayStyle: TextStyle().copyWith(color: Colors.black),
               weekendStyle: TextStyle().copyWith(color: Colors.black),
               outsideDaysVisible: false,
+              markersColor: Colors.brown[700],
             ),
             daysOfWeekStyle: DaysOfWeekStyle(
               weekdayStyle: TextStyle().copyWith(color: Colors.black),

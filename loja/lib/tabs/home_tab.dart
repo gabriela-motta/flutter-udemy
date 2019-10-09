@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:loja/data/post_data.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:http/http.dart' as http;
 
 class HomeTab extends StatelessWidget {
   @override
@@ -67,5 +71,19 @@ class HomeTab extends StatelessWidget {
         )
       ],
     );
+  }
+
+  Future<Post> fetchPosts() async {
+    final response = await http.get('https://instagram.com/supergeeksjp/');
+    print(response.body.indexOf("window._sharedData"));
+    print(response.body.substring(19001,36469));
+
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON.
+      return Post.fromJson(json.decode(response.body.substring(19001,36469)));
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
   }
 }
