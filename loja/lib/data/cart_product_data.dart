@@ -9,6 +9,8 @@ class CartProductData {
   String size;
   ProductData productData;
 
+  CartProductData();
+
   CartProductData.fromDocument(DocumentSnapshot snapshot) {
     cid = snapshot.documentID;
     category = snapshot.data["category"];
@@ -23,7 +25,7 @@ class CartProductData {
       "pid": pid,
       "quantity": quantity,
       "size": size,
-      "product": productData.toResumedMap(),
+      //"product": productData.toResumedMap(),
     };
   }
 }

@@ -12,6 +12,9 @@ class UserModel extends Model {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   Map<String, dynamic> userData = Map();
 
+  static UserModel of(BuildContext context) =>
+      ScopedModel.of<UserModel>(context);
+
   @override
   void addListener(VoidCallback listener) {
     super.addListener(listener);
