@@ -42,6 +42,20 @@ class CartModel extends Model {
     notifyListeners();
   }
 
+  void updatePrices() {
+    notifyListeners();
+  }
+
+  double geProductsPrice() {
+    double price = 0.0;
+    for (CartProductData c in products) {
+      if (c.productData != null) {
+        price += c.quantity * c.productData.price;
+      }
+    }
+    return price;
+  }
+
   void decProduct(CartProductData cartProduct) {
     cartProduct.quantity--;
 
