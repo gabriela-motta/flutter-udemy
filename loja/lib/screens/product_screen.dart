@@ -4,6 +4,7 @@ import 'package:loja/data/cart_product_data.dart';
 import 'package:loja/data/product_data.dart';
 import 'package:loja/models/cart_model.dart';
 import 'package:loja/models/user_model.dart';
+import 'package:loja/screens/cart_screen.dart';
 import 'package:loja/screens/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -188,6 +189,9 @@ class _ProductScreenState extends State<ProductScreen> {
                               cartProduct.pid = product.id;
                               cartProduct.category = product.category;
                               CartModel.of(context).addCartItem(cartProduct);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CartScreen(),
+                              ));
                             } else {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => LoginScreen(),
