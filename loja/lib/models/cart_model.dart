@@ -9,6 +9,9 @@ class CartModel extends Model {
   bool isLoading = false;
   List<CartProductData> products = [];
 
+  String couponCode;
+  int discountPercentage = 0;
+
   CartModel(this.user) {
     if (user.isLoggedIn()) {
       _loadCartItems();
@@ -46,7 +49,7 @@ class CartModel extends Model {
     notifyListeners();
   }
 
-  double geProductsPrice() {
+  double getProductsPrice() {
     double price = 0.0;
     for (CartProductData c in products) {
       if (c.productData != null) {
@@ -54,6 +57,10 @@ class CartModel extends Model {
       }
     }
     return price;
+  }
+
+  double getDiscount() {
+    return getProductsPrice() * discountPercentage / 100;
   }
 
   void decProduct(CartProductData cartProduct) {
@@ -80,6 +87,27 @@ class CartModel extends Model {
         .updateData(cartProduct.toMap());
 
     notifyListeners();
+  }
+
+  void setCoupon(String couponCode, int discountPercentage) {
+    this.couponCode = couponCode;
+    this.discountPercentage = discountPercentage;
+  }
+
+  void finishOrder() {
+    if (products.length == 0) return;
+
+    isLoading = true;
+    notifyListeners();
+    double productsPrice = getProductsPrice();
+    double discount = getDiscount();
+
+    Firestore.instance.collection("orders").add({
+      "clientId": user.firebaseUser.uid,
+      "products": products.map((product) => product.toMap()).toList(),
+      "productsPrice": productsPrice,
+      "status": 1,
+    });
   }
 
   Future _loadCartItems() async {
