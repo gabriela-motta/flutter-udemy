@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja/tabs/calendar_tab.dart';
 import 'package:loja/tabs/category_tab.dart';
 import 'package:loja/tabs/home_tab.dart';
+import 'package:loja/tabs/orders_tab.dart';
 import 'package:loja/tabs/wallet_tab.dart';
 import 'package:loja/widgets/cart_button.dart';
 import 'package:loja/widgets/custom_drawer.dart';
@@ -47,6 +48,15 @@ class HomeScreen extends StatelessWidget {
           ),
           drawer: CustomDrawer(_pageController),
           body: WalletTab(),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Pedidos"),
+            centerTitle: true,
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+          drawer: CustomDrawer(_pageController),
+          body: OrdersTab(),
         ),
       ],
     );
