@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "490898616802",
+    "firebase_url": "https://loja-913d1.firebaseio.com",
+    "project_id": "loja-913d1",
+    "storage_bucket": "loja-913d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490898616802:android:7ff3ec681e19eb4243c9bb",
+        "android_client_info": {
+          "package_name": "com.gabriela.gerente_loja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490898616802-5v2s5rf80j36ou66vuc65frv019718el.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTFkTKhATegQHLw2m-EYp9eoAJoWV0qqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490898616802-5v2s5rf80j36ou66vuc65frv019718el.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490898616802:android:1845ed8e98dcf1d343c9bb",
+        "android_client_info": {
+          "package_name": "com.gabriela.loja.loja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490898616802-fvmlgko9jlr0hn5a6sgr22cq00mng82r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gabriela.loja.loja",
+            "certificate_hash": "07102ff787d024b1bd6ba2e8043a393155f3d0c4"
+          }
+        },
+        {
+          "client_id": "490898616802-5v2s5rf80j36ou66vuc65frv019718el.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTFkTKhATegQHLw2m-EYp9eoAJoWV0qqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490898616802-5v2s5rf80j36ou66vuc65frv019718el.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
