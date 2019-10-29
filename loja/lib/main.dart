@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
               child: MaterialApp(
                 title: "SuperGeeks",
                 theme: ThemeData(
-                    accentColor: Color.fromARGB(255, 127, 0, 0),
+                    accentColor: Colors.redAccent[700],
                     primarySwatch: Colors.red,
-                    primaryColor: Color.fromARGB(255, 127, 0, 0)),
+                    primaryColor: Colors.redAccent[700]),
                 debugShowCheckedModeBanner: false,
                 home: HomeScreen(),
               ),
