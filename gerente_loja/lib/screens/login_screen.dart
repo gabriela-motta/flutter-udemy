@@ -22,10 +22,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Image.network(
-                    "http://santoandre.supergeeks.com.br/assets/img/supergeeks-icon.png",
-                    width: 100,
+                  Image(
+                    image: AssetImage('assets/supergeeks-icon.png'),
                     height: 100,
+                    width: 100,
                   ),
                   InputField(
                     icon: Icons.person_outline,
