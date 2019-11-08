@@ -6,26 +6,27 @@ class CategoryTile extends StatelessWidget {
 
   CategoryTile(this.category);
 
-  Widget productTile() {
-    for (var prod in category["items"]) {
-      return ListTile(
+  List<Widget> productTile() {
+    List<Widget> items = [];
+    category["items"].map((prod) {
+      items.add(ListTile(
         leading: CircleAvatar(
           backgroundImage: NetworkImage(prod["images"][0]),
+          backgroundColor: Colors.transparent,
         ),
         title: Text(prod["title"]),
         trailing: Text("R\$${prod["price"].toStringAsFixed(2)}"),
         onTap: () {},
-      );
-    }
+      ));
+    }).toList();
+    return items;
   }
 
   Widget productsColumn() {
     if (category.containsKey("items")) {
       print(category["items"][0]["price"]);
       return Column(
-        children: <Widget>[
-          productTile(),
-        ],
+        children: productTile(),
       );
     } else {
       return Container(
