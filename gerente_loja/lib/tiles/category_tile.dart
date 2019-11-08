@@ -22,11 +22,21 @@ class CategoryTile extends StatelessWidget {
     return items;
   }
 
-  Widget productsColumn() {
+  Widget productsColumn(BuildContext context) {
     if (category.containsKey("items")) {
-      print(category["items"][0]["price"]);
       return Column(
-        children: productTile(),
+        children: productTile()
+          ..add(ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(
+                Icons.add,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            title: Text("Adicionar"),
+            onTap: (){},
+          )),
       );
     } else {
       return Container(
@@ -73,7 +83,7 @@ class CategoryTile extends StatelessWidget {
             style: TextStyle(color: Colors.black),
           ),
           children: <Widget>[
-            productsColumn(),
+            productsColumn(context),
           ],
         ),
       ),
