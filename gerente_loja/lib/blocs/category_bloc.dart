@@ -2,15 +2,15 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ProductsBloc extends BlocBase {
-  final _productsController = BehaviorSubject<List>();
+class CategoryBloc extends BlocBase {
+  final _categoryController = BehaviorSubject<List>();
 
-  Stream<List> get outProducts => _productsController.stream;
+  Stream<List> get outCategories => _categoryController.stream;
 
-  Map<String, Map<String, dynamic>> _products = {};
+  Map<String, Map<String, dynamic>> _categories = {};
   Firestore _firestore = Firestore.instance;
 
-  ProductsBloc() {
+  CategoryBloc() {
     _addProductsListener();
   }
 
@@ -21,17 +21,17 @@ class ProductsBloc extends BlocBase {
         print(cid);
         switch (change.type) {
           case DocumentChangeType.added:
-            _products[cid] = change.document.data;
+            _categories[cid] = change.document.data;
             _subscribeToItems(cid);
             break;
           case DocumentChangeType.modified:
-            _products[cid].addAll(change.document.data);
-            _productsController.add(_products.values.toList());
+            _categories[cid].addAll(change.document.data);
+            _categoryController.add(_categories.values.toList());
             break;
           case DocumentChangeType.removed:
-            _products.remove(cid);
+            _categories.remove(cid);
             _unsubscribeToItems(cid);
-            _productsController.add(_products.values.toList());
+            _categoryController.add(_categories.values.toList());
             break;
         }
       });
@@ -39,16 +39,15 @@ class ProductsBloc extends BlocBase {
   }
 
   void _subscribeToItems(String cid) {
-    _products[cid]["subscription"] = _firestore
+    _categories[cid]["subscription"] = _firestore
         .collection("products")
         .document(cid)
         .collection("items")
         .snapshots()
         .listen((products) async {
-      int size = products.documents.length;
       List items = products.documents;
 
-      items.map((item){
+      items.map((item) {
         item = {
           "title": item.data["title"],
           "price": item.data["price"],
@@ -58,18 +57,18 @@ class ProductsBloc extends BlocBase {
         };
       });
 
-      _products[cid].addAll({"size": size, "items": items});
+      _categories[cid].addAll({"cid": cid, "items": items});
 
-      _productsController.add(_products.values.toList());
+      _categoryController.add(_categories.values.toList());
     });
   }
 
   void _unsubscribeToItems(String cid) {
-    _products[cid]["subscription"].cancel();
+    _categories[cid]["subscription"].cancel();
   }
 
   @override
   void dispose() {
-    _productsController.close();
+    _categoryController.close();
   }
 }

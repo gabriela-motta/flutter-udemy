@@ -1,6 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:gerente_loja/blocs/products_bloc.dart';
+import 'package:gerente_loja/blocs/category_bloc.dart';
 import 'package:gerente_loja/blocs/user_bloc.dart';
 import 'package:gerente_loja/tabs/orders_tab.dart';
 import 'package:gerente_loja/tabs/products_tab.dart';
@@ -16,14 +16,14 @@ class _HomeScreenState extends State<HomeScreen> {
   int _page = 0;
 
   UserBloc _userBloc;
-  ProductsBloc _productsBloc;
+  CategoryBloc _categoryBloc;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
     _userBloc = UserBloc();
-    _productsBloc = ProductsBloc();
+    _categoryBloc = CategoryBloc();
   }
 
   @override
@@ -63,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: BlocProvider<UserBloc>(
           bloc: _userBloc,
-          child: BlocProvider<ProductsBloc>(
-            bloc: _productsBloc,
+          child: BlocProvider<CategoryBloc>(
+            bloc: _categoryBloc,
             child: PageView(
               controller: _pageController,
               onPageChanged: (p) {
