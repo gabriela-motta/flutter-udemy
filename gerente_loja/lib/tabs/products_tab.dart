@@ -9,7 +9,7 @@ class ProductsTab extends StatelessWidget {
     final primaryColor = Theme.of(context).primaryColor;
     final _productsBloc = BlocProvider.of<ProductsBloc>(context);
     return StreamBuilder<List>(
-      stream: _productsBloc.outCategories,
+      stream: _productsBloc.outProducts,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
