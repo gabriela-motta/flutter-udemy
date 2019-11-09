@@ -18,7 +18,6 @@ class CategoryBloc extends BlocBase {
     _firestore.collection("products").snapshots().listen((snapshot) {
       snapshot.documentChanges.forEach((change) {
         String cid = change.document.documentID;
-        print(cid);
         switch (change.type) {
           case DocumentChangeType.added:
             _categories[cid] = change.document.data;
