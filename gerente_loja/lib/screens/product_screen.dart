@@ -134,14 +134,16 @@ class _ProductScreenState extends State<ProductScreen> with ProductValidators {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(
-          "Salvando produto...",
-          style: TextStyle(color: Colors.white),
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text(
+            "Salvando produto...",
+            style: TextStyle(color: Colors.white),
+          ),
+          duration: Duration(minutes: 1),
+          backgroundColor: Colors.redAccent[700],
         ),
-        duration: Duration(minutes: 1),
-        backgroundColor: Colors.redAccent[700],
-      ));
+      );
 
       bool success = await _productBloc.saveProduct();
 

@@ -51,7 +51,7 @@ class ProductBloc extends BlocBase {
 
   Future<bool> saveProduct() async {
     _loadingController.add(true);
-    Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 3));
     _loadingController.add(false);
     return true;
   }
