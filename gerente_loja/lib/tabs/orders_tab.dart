@@ -1,15 +1,41 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:gerente_loja/blocs/orders_bloc.dart';
 import 'package:gerente_loja/tiles/order_tile.dart';
 
 class OrdersTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _ordersBloc = BlocProvider.of<OrdersBloc>(context);
+    final primaryColor = Theme.of(context).primaryColor;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 16),
-      child: ListView.builder(
-        itemCount: 6,
-        itemBuilder: (context, index) {
-          return OrderTile();
+      child: StreamBuilder<List>(
+        stream: _ordersBloc.outOrders,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(primaryColor),
+              ),
+            );
+          } else if (snapshot.data.length == 0) {
+            return Center(
+              child: Text(
+                "Nenhum pedido encontrado!",
+                style: TextStyle(
+                  color: primaryColor,
+                ),
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                return OrderTile(snapshot.data[index]);
+              },
+            );
+          }
         },
       ),
     );
