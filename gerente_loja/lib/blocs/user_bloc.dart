@@ -84,6 +84,10 @@ class UserBloc extends BlocBase {
     return filteredUsers;
   }
 
+  Map<String, dynamic> getUser(String uid) {
+    return _users[uid];
+  }
+
   @override
   void dispose() {
     _usersController.close();

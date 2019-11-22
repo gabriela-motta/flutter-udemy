@@ -15,7 +15,9 @@ class AddSizeDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            TextField(),
+            TextField(
+              controller: _controller,
+            ),
             Container(
               alignment: Alignment.centerRight,
               child: FlatButton(
