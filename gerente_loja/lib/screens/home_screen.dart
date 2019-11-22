@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:gerente_loja/blocs/category_bloc.dart';
+import 'package:gerente_loja/blocs/orders_bloc.dart';
 import 'package:gerente_loja/blocs/user_bloc.dart';
 import 'package:gerente_loja/tabs/orders_tab.dart';
 import 'package:gerente_loja/tabs/products_tab.dart';
@@ -17,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   UserBloc _userBloc;
   CategoryBloc _categoryBloc;
+  OrdersBloc _ordersBloc;
 
   @override
   void initState() {
@@ -24,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _pageController = PageController();
     _userBloc = UserBloc();
     _categoryBloc = CategoryBloc();
+    _ordersBloc = OrdersBloc();
   }
 
   @override
@@ -65,18 +68,21 @@ class _HomeScreenState extends State<HomeScreen> {
           bloc: _userBloc,
           child: BlocProvider<CategoryBloc>(
             bloc: _categoryBloc,
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (p) {
-                setState(() {
-                  _page = p;
-                });
-              },
-              children: <Widget>[
-                UsersTab(),
-                OrdersTab(),
-                ProductsTab(),
-              ],
+            child: BlocProvider<OrdersBloc>(
+              bloc: _ordersBloc,
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (p) {
+                  setState(() {
+                    _page = p;
+                  });
+                },
+                children: <Widget>[
+                  UsersTab(),
+                  OrdersTab(),
+                  ProductsTab(),
+                ],
+              ),
             ),
           ),
         ),

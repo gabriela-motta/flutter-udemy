@@ -1,7 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gerente_loja/widgets/order_header.dart';
 
 class OrderTile extends StatelessWidget {
+  final DocumentSnapshot order;
+  final states = [
+    "",
+    "Confirmado",
+    "Pago",
+    "Entregue",
+    "Entregue",
+  ];
+  OrderTile(this.order);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,8 +23,10 @@ class OrderTile extends StatelessWidget {
       child: Card(
         child: ExpansionTile(
           title: Text(
-            "#4234 - entregue",
-            style: TextStyle(color: Colors.green),
+            "#${order.documentID.substring(order.documentID.length - 7, order.documentID.length)} - "
+            "${states[order.data["status"]]}",
+            style: TextStyle(
+                color: order.data["status"] >= 3 ? Colors.green : Colors.grey[850]),
           ),
           children: <Widget>[
             Padding(
@@ -24,17 +37,17 @@ class OrderTile extends StatelessWidget {
                   OrderHeader(),
                   Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        title: Text("camiseta"),
-                        subtitle: Text("camiseta/yeuifgsd"),
+                    children: order.data["products"].map<Widget>((p) {
+                      return ListTile(
+                        title: Text(p["product"]["title"]),
+                        subtitle: Text(p["category"] + "/" + p["pid"]),
                         trailing: Text(
-                          "2",
+                          p["quantity"].toString(),
                           style: TextStyle(fontSize: 20),
                         ),
                         contentPadding: EdgeInsets.zero,
-                      )
-                    ],
+                      );
+                    }).toList(),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
