@@ -115,6 +115,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               );
           }
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(primaryColor),
+            ),
+          );
         },
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:gerente_loja/blocs/category_bloc.dart';
 import 'package:gerente_loja/blocs/orders_bloc.dart';
 import 'package:gerente_loja/blocs/user_bloc.dart';
 import 'package:gerente_loja/tabs/orders_tab.dart';
+import 'package:gerente_loja/tabs/products_tab.dart';
 import 'package:gerente_loja/tabs/users_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _page = 0;
 
   UserBloc _userBloc;
+  CategoryBloc _categoryBloc;
   OrdersBloc _ordersBloc;
 
   @override
@@ -22,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _pageController = PageController();
     _userBloc = UserBloc();
+    _categoryBloc = CategoryBloc();
     _ordersBloc = OrdersBloc();
   }
 
@@ -62,22 +66,23 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: BlocProvider<UserBloc>(
           bloc: _userBloc,
-          child: BlocProvider<OrdersBloc>(
-            bloc: _ordersBloc,
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (p) {
-                setState(() {
-                  _page = p;
-                });
-              },
-              children: <Widget>[
-                UsersTab(),
-                OrdersTab(),
-                Container(
-                  color: Colors.green,
-                ),
-              ],
+          child: BlocProvider<CategoryBloc>(
+            bloc: _categoryBloc,
+            child: BlocProvider<OrdersBloc>(
+              bloc: _ordersBloc,
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (p) {
+                  setState(() {
+                    _page = p;
+                  });
+                },
+                children: <Widget>[
+                  UsersTab(),
+                  OrdersTab(),
+                  ProductsTab(),
+                ],
+              ),
             ),
           ),
         ),
