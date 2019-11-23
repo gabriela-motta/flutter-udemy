@@ -78,7 +78,7 @@ class ProductSizes extends FormField<List> {
                                   Radius.circular(4),
                                 ),
                                 border: Border.all(
-                                  color: Theme.of(context).primaryColor,
+                                  color: state.hasError ? Colors.grey : Theme.of(context).primaryColor,
                                   width: 3,
                                 ),
                               ),
