@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:loja/screens/qr_code_screen.dart';
+import 'package:loja/screens/scan_screen.dart';
 
 class WalletTab extends StatelessWidget {
   @override
@@ -86,8 +89,38 @@ class WalletTab extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        Column(
+          children: <Widget>[
+            RaisedButton(
+              child: Text("Transferir saldo", style: TextStyle(fontSize: 18)),
+              textColor: Colors.white,
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => QRCodeScreen()));
+              },
+            ),
+            RaisedButton(
+              child:
+                  Text("Escanear um código QR", style: TextStyle(fontSize: 18)),
+              textColor: Colors.white,
+              color: Theme.of(context).primaryColor,
+              onPressed: scan,
+            ),
+            SizedBox(
+              height: 40,
+            ),
+          ],
+        ),
       ],
     );
+  }
+
+  Future scan() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver("#ff6666", "Cancelar", false, ScanMode.DEFAULT)
+         .listen((barcode) { 
+         /// barcode to be used
+         });
   }
 }
